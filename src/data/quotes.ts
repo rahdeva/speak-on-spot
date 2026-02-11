@@ -219,3 +219,23 @@ export const quotes = [
     "\"Confidence follows action.\" - William James",
     "\"Effort compounds over time.\" - Warren Buffett",
 ];
+
+export const valentineQuotes = [
+    "\"Love yourself first and everything else falls into line.\" - Lucille Ball",
+    "\"Where there is love, there is life.\" - Mahatma Gandhi",
+    "\"Being deeply loved by someone gives you strength, while loving someone deeply gives you courage.\" - Lao Tzu",
+    "\"We are most alive when we're in love.\" - John Updike",
+    "\"The best and most beautiful things in this world cannot be seen or even heard, but must be felt with the heart.\" - Helen Keller",
+    "\"Love is not something you find. Love is something that finds you.\" - Loretta Young",
+    "\"The heart wants what it wants.\" - Woody Allen",
+    "\"Love is when the other person's happiness is more important than your own.\" - H. Jackson Brown Jr.",
+    "\"The only thing we never get enough of is love; and the only thing we never give enough of is love.\" - Henry Miller",
+    "\"Love is the master key that opens the gates of happiness.\" - Oliver Wendell Holmes",
+    "\"To love is nothing. To be loved is something. But to love and be loved, that's everything.\" - T. Tolis",
+    "\"Love is an endless act of forgiveness.\" - Beyoncé",
+    "\"Love grows by giving. The love we give away is the only love we keep.\" - Elbert Hubbard",
+    "\"The consciousness of loving and being loved brings warmth and richness to life.\" - Oscar Wilde",
+    "\"Love is the greatest refreshment in life.\" - Pablo Picasso",
+    "\"Real love is when you become selfless and you are more concerned about your mate's happiness than your own.\" - Crystal Swain-Bates",
+    "\"The best proof of love is trust.\" - Joyce Brothers",
+];
