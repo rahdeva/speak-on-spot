@@ -9,16 +9,23 @@ import {
   Clock,
   Timer,
   ArrowLeft,
+  Heart,
 } from "lucide-react";
 import confetti from "canvas-confetti";
-import { quotes } from "../data/quotes";
-import { statements } from "../data/statements";
-import { questions } from "../data/questions";
+import { quotes, valentineQuotes } from "../data/quotes";
+import { statements, valentineStatements} from "../data/statements";
+import { questions, valentineQuestions} from "../data/questions";
 
 const TOPICS = {
   quotes: quotes,
   statements: statements,
   questions: questions,
+};
+
+const VALENTINE_TOPICS = {
+  quotes: valentineQuotes,
+  statements: valentineStatements,
+  questions: valentineQuestions,
 };
 
 const TIME_PRESETS = [
@@ -36,6 +43,7 @@ interface PracticeTimerProps {
   onReset: () => void;
 }
 
+
 export function PracticeTimer({ onReset }: PracticeTimerProps) {
   const [currentTopic, setCurrentTopic] = useState<string>("");
   const [topicType, setTopicType] = useState<'quotes' | 'statements' | 'questions'>('questions');
@@ -45,6 +53,7 @@ export function PracticeTimer({ onReset }: PracticeTimerProps) {
   const [customMax, setCustomMax] = useState<string>('');
   const [showCustomInput, setShowCustomInput] = useState(false);
   const [showSettings, setShowSettings] = useState(true);
+  const [isValentineMode, setIsValentineMode] = useState(false);
   
   const [time, setTime] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
@@ -96,7 +105,7 @@ export function PracticeTimer({ onReset }: PracticeTimerProps) {
       }
     }
     
-    const topicsArray = TOPICS[topicType];
+    const topicsArray = isValentineMode ? VALENTINE_TOPICS[topicType] : TOPICS[topicType];
     const randomTopic = topicsArray[Math.floor(Math.random() * topicsArray.length)];
     setCurrentTopic(randomTopic);
     setShowSettings(false);
@@ -121,11 +130,40 @@ export function PracticeTimer({ onReset }: PracticeTimerProps) {
   const handleComplete = () => {
     setIsRunning(false);
     setIsCompleted(true);
-    confetti({
-      particleCount: 100,
-      spread: 70,
-      origin: { y: 0.6 },
-    });
+    
+    if (isValentineMode) {
+      // Heart confetti for Valentine's mode
+      const duration = 2 * 1000;
+      const end = Date.now() + duration;
+
+      (function frame() {
+        confetti({
+          particleCount: 2,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0 },
+          colors: ['#FF1461', '#FF69B4', '#FFB6C1'],
+        });
+        confetti({
+          particleCount: 2,
+          angle: 120,
+          spread: 55,
+          origin: { x: 1 },
+          colors: ['#FF1461', '#FF69B4', '#FFB6C1'],
+        });
+
+        if (Date.now() < end) {
+          requestAnimationFrame(frame);
+        }
+      }());
+    } else {
+      // Regular confetti
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 },
+      });
+    }
   };
 
   const handleNewTopic = () => {
@@ -249,31 +287,50 @@ export function PracticeTimer({ onReset }: PracticeTimerProps) {
         {/* Settings Panel */}
         {showSettings && (
           <div className="bg-white border-2 border-foreground rounded-3xl p-8 md:p-12 shadow-[8px_8px_0px_0px_#8B5CF6] mb-8 animate-pop-in">
-            <div className="flex items-center gap-4 mb-6">
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-4">
+                <button
+                  onClick={onReset}
+                  className="group relative p-3 bg-white text-foreground rounded-full border-2 border-foreground font-bold transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:bg-[#F472B6] hover:-translate-x-0.5 hover:-translate-y-0.5 active:translate-x-0.5 active:translate-y-0.5"
+                  style={{
+                    boxShadow: "3px 3px 0px 0px #1E293B",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.boxShadow = "4px 4px 0px 0px #1E293B";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.boxShadow = "3px 3px 0px 0px #1E293B";
+                  }}
+                  onMouseDown={(e) => {
+                    e.currentTarget.style.boxShadow = "1px 1px 0px 0px #1E293B";
+                  }}
+                  onMouseUp={(e) => {
+                    e.currentTarget.style.boxShadow = "4px 4px 0px 0px #1E293B";
+                  }}
+                >
+                  <ArrowLeft className="size-5" strokeWidth={2.5} />
+                </button>
+                
+                <h2 className="text-3xl md:text-4xl font-extrabold text-foreground">
+                  Setup Your Practice
+                </h2>
+              </div>
+              
+              {/* Valentine's Edition Toggle */}
               <button
-                onClick={onReset}
-                className="group relative p-3 bg-white text-foreground rounded-full border-2 border-foreground font-bold transition-all duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:bg-[#F472B6] hover:-translate-x-0.5 hover:-translate-y-0.5 active:translate-x-0.5 active:translate-y-0.5"
-                style={{
-                  boxShadow: "3px 3px 0px 0px #1E293B",
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.boxShadow = "4px 4px 0px 0px #1E293B";
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.boxShadow = "3px 3px 0px 0px #1E293B";
-                }}
-                onMouseDown={(e) => {
-                  e.currentTarget.style.boxShadow = "1px 1px 0px 0px #1E293B";
-                }}
-                onMouseUp={(e) => {
-                  e.currentTarget.style.boxShadow = "4px 4px 0px 0px #1E293B";
-                }}
+                onClick={() => setIsValentineMode(!isValentineMode)}
+                className={`px-4 py-2 rounded-full border-2 border-foreground font-bold text-sm transition-all duration-300 ${
+                  isValentineMode
+                    ? 'bg-gradient-to-r from-[#FF1461] to-[#FF69B4] text-white shadow-[3px_3px_0px_0px_#1E293B]'
+                    : 'bg-white text-foreground hover:bg-[#FFE5EC]'
+                }`}
               >
-                <ArrowLeft className="size-5" strokeWidth={2.5} />
+                <span className="flex items-center gap-2">
+                  <Heart className={`size-4 ${isValentineMode ? 'fill-white' : ''}`} strokeWidth={2.5} />
+                  <span className="hidden sm:inline">Valentine's Edition</span>
+                  <span className="sm:hidden">💝</span>
+                </span>
               </button>
-              <h2 className="text-3xl md:text-4xl font-extrabold text-foreground">
-                Setup Your Practice
-              </h2>
             </div>
 
             {/* Topic Type Selection */}

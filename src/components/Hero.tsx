@@ -93,7 +93,7 @@ export function Hero({ onStartPractice }: HeroProps) {
               style={{ animationDelay: "0.2s" }}
             >
               <div
-                className="w-0 h-0 border-l-[50px] border-l-transparent border-r-[50px] border-r-transparent border-b-[86px] border-b-[#34D399]"
+                className="w-0 h-0 border-l-50 border-l-transparent border-r-50 border-r-transparent border-b-86 border-b-[#34D399]"
                 style={{
                   filter: "drop-shadow(6px 6px 0px #1E293B)",
                 }}
