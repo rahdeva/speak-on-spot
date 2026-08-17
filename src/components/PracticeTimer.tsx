@@ -12,9 +12,11 @@ import {
   Heart,
 } from "lucide-react";
 import confetti from "canvas-confetti";
-import { quotes, valentineQuotes } from "../data/quotes";
-import { statements, valentineStatements} from "../data/statements";
-import { questions, valentineQuestions} from "../data/questions";
+import { quotes, valentineQuotes, independenceQuotes } from "../data/quotes";
+import { statements, valentineStatements, independenceStatements } from "../data/statements";
+import { questions, valentineQuestions, independenceQuestions } from "../data/questions";
+
+type Edition = 'regular' | 'valentine' | 'independence';
 
 const TOPICS = {
   quotes: quotes,
@@ -26,6 +28,18 @@ const VALENTINE_TOPICS = {
   quotes: valentineQuotes,
   statements: valentineStatements,
   questions: valentineQuestions,
+};
+
+const INDEPENDENCE_TOPICS = {
+  quotes: independenceQuotes,
+  statements: independenceStatements,
+  questions: independenceQuestions,
+};
+
+const EDITION_TOPICS: Record<Edition, typeof TOPICS> = {
+  regular: TOPICS,
+  valentine: VALENTINE_TOPICS,
+  independence: INDEPENDENCE_TOPICS,
 };
 
 const TIME_PRESETS = [
@@ -53,7 +67,7 @@ export function PracticeTimer({ onReset }: PracticeTimerProps) {
   const [customMax, setCustomMax] = useState<string>('');
   const [showCustomInput, setShowCustomInput] = useState(false);
   const [showSettings, setShowSettings] = useState(true);
-  const [isValentineMode, setIsValentineMode] = useState(false);
+  const [edition, setEdition] = useState<Edition>('regular');
   
   const [time, setTime] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
@@ -105,7 +119,7 @@ export function PracticeTimer({ onReset }: PracticeTimerProps) {
       }
     }
     
-    const topicsArray = isValentineMode ? VALENTINE_TOPICS[topicType] : TOPICS[topicType];
+    const topicsArray = EDITION_TOPICS[edition][topicType];
     const randomTopic = topicsArray[Math.floor(Math.random() * topicsArray.length)];
     setCurrentTopic(randomTopic);
     setShowSettings(false);
@@ -131,8 +145,11 @@ export function PracticeTimer({ onReset }: PracticeTimerProps) {
     setIsRunning(false);
     setIsCompleted(true);
     
-    if (isValentineMode) {
-      // Heart confetti for Valentine's mode
+    if (edition !== 'regular') {
+      // Side-cannon confetti with edition colors
+      const colors = edition === 'valentine'
+        ? ['#FF1461', '#FF69B4', '#FFB6C1']
+        : ['#EF4444', '#FFFFFF', '#DC2626'];
       const duration = 2 * 1000;
       const end = Date.now() + duration;
 
@@ -142,14 +159,14 @@ export function PracticeTimer({ onReset }: PracticeTimerProps) {
           angle: 60,
           spread: 55,
           origin: { x: 0 },
-          colors: ['#FF1461', '#FF69B4', '#FFB6C1'],
+          colors,
         });
         confetti({
           particleCount: 2,
           angle: 120,
           spread: 55,
           origin: { x: 1 },
-          colors: ['#FF1461', '#FF69B4', '#FFB6C1'],
+          colors,
         });
 
         if (Date.now() < end) {
@@ -316,21 +333,42 @@ export function PracticeTimer({ onReset }: PracticeTimerProps) {
                 </h2>
               </div>
               
-              {/* Valentine's Edition Toggle */}
-              <button
-                onClick={() => setIsValentineMode(!isValentineMode)}
-                className={`px-4 py-2 rounded-full border-2 border-foreground font-bold text-sm transition-all duration-300 ${
-                  isValentineMode
-                    ? 'bg-gradient-to-r from-[#FF1461] to-[#FF69B4] text-white shadow-[3px_3px_0px_0px_#1E293B]'
-                    : 'bg-white text-foreground hover:bg-[#FFE5EC]'
-                }`}
-              >
-                <span className="flex items-center gap-2">
-                  <Heart className={`size-4 ${isValentineMode ? 'fill-white' : ''}`} strokeWidth={2.5} />
-                  <span className="hidden sm:inline">Valentine's Edition</span>
-                  <span className="sm:hidden">💝</span>
-                </span>
-              </button>
+              {/* Edition Toggles */}
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setEdition(edition === 'valentine' ? 'regular' : 'valentine')}
+                  className={`px-4 py-2 rounded-full border-2 border-foreground font-bold text-sm transition-all duration-300 ${
+                    edition === 'valentine'
+                      ? 'bg-gradient-to-r from-[#FF1461] to-[#FF69B4] text-white shadow-[3px_3px_0px_0px_#1E293B]'
+                      : 'bg-white text-foreground hover:bg-[#FFE5EC]'
+                  }`}
+                >
+                  <span className="flex items-center gap-2">
+                    <Heart className={`size-4 ${edition === 'valentine' ? 'fill-white' : ''}`} strokeWidth={2.5} />
+                    <span className="hidden sm:inline">Valentine's Edition</span>
+                    <span className="sm:hidden">💝</span>
+                  </span>
+                </button>
+
+                <button
+                  onClick={() => setEdition(edition === 'independence' ? 'regular' : 'independence')}
+                  className={`px-4 py-2 rounded-full border-2 border-foreground font-bold text-sm transition-all duration-300 ${
+                    edition === 'independence'
+                      ? 'text-white shadow-[3px_3px_0px_0px_#1E293B]'
+                      : 'bg-white text-foreground hover:bg-[#FFE5EC]'
+                  }`}
+                  style={
+                    edition === 'independence'
+                      ? { background: 'linear-gradient(to right, #EF4444, #F87171)' }
+                      : undefined
+                  }
+                >
+                  <span className="flex items-center gap-2">
+                    <span>🇮🇩</span>
+                    <span className="hidden sm:inline">Independence Day Edition</span>
+                  </span>
+                </button>
+              </div>
             </div>
 
             {/* Topic Type Selection */}

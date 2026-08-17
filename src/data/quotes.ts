@@ -239,3 +239,23 @@ export const valentineQuotes = [
     "\"Real love is when you become selfless and you are more concerned about your mate's happiness than your own.\" - Crystal Swain-Bates",
     "\"The best proof of love is trust.\" - Joyce Brothers",
 ];
+
+export const independenceQuotes = [
+    "\"Give me ten youths and I will shake the world.\" - Soekarno",
+    "\"A great nation is a nation that honors the services of its heroes.\" - Soekarno",
+    "\"Never leave history behind.\" - Soekarno",
+    "\"Independence is a golden bridge toward a just and prosperous society.\" - Soekarno",
+    "\"My struggle was easier because I fought against colonizers; your struggle will be harder because you fight against your own people.\" - Soekarno",
+    "\"Dream as high as the sky. If you fall, you will fall among the stars.\" - Soekarno",
+    "\"Indonesia will not shine because of the torch in Jakarta, but because of the candles lit in every village.\" - Mohammad Hatta",
+    "\"Only one country is my country; it grows through deeds, and those deeds are mine.\" - Mohammad Hatta",
+    "\"After darkness comes light.\" - R.A. Kartini",
+    "\"Nothing is impossible in this world. What often seems impossible today can become reality tomorrow.\" - R.A. Kartini",
+    "\"In front, set an example; in the middle, build spirit; from behind, give encouragement.\" - Ki Hajar Dewantara",
+    "\"Idealism is the last luxury that only the youth possess.\" - Tan Malaka",
+    "\"As long as the will to fight exists, hope is never lost.\" - Jenderal Sudirman",
+    "\"Do not ask what your country can do for you, but ask what you can do for your country.\" - John F. Kennedy",
+    "\"For a fighter, freedom is everything.\" - Soekarno",
+    "\"Struggle is the essence of the life of a nation.\" - Jenderal Sudirman",
+    "\"Unity and mutual cooperation are the identity of the Indonesian nation.\" - Soekarno",
+];
